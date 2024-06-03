@@ -8,7 +8,7 @@ public class GoaliasProperty {
 
     private boolean enableLog = true;
 
-    public int getHotCacheSeconds() {
+    public  int getHotCacheSeconds() {
         return hotCacheSeconds;
     }
 
