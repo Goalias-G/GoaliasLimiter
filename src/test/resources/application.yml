@@ -1,0 +1,3 @@
+goalias:
+  enable-log: true
+  hot-cache-seconds: 30

@@ -3,6 +3,7 @@ package com.tool.goalias.spring;
 import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
+import com.alibaba.csp.sentinel.util.MethodUtil;
 import com.alibaba.csp.sentinel.util.function.Tuple2;
 import com.tool.goalias.annotation.GoaliasFallback;
 import com.tool.goalias.annotation.GoaliasHot;
@@ -34,18 +35,23 @@ public class GoaliasScanner implements BeanPostProcessor {
         Arrays.stream(clazz.getMethods()).forEach(method -> {
             GoaliasFallback goaliasFallback = searchAnnotation(method, GoaliasFallback.class);
             if (ObjectUtil.isNotNull(goaliasFallback)){
-                GoaliasMethodManager.addGoaliasMethod(method.getName(),new Tuple2<>(GoaliasStrategyEnum.FALLBACK,goaliasFallback));
+                GoaliasMethodManager.addGoaliasMethod(MethodUtil.resolveMethodName(method),new Tuple2<>(GoaliasStrategyEnum.FALLBACK,goaliasFallback));
                 needProxy.set(true);
             }
 
             GoaliasHot goaliasHot = searchAnnotation(method, GoaliasHot.class);
             if (ObjectUtil.isNotNull(goaliasHot)){
-                GoaliasMethodManager.addGoaliasMethod(method.getName(),new Tuple2<>(GoaliasStrategyEnum.HOT_METHOD,goaliasHot));
+                GoaliasMethodManager.addGoaliasMethod(MethodUtil.resolveMethodName(method),new Tuple2<>(GoaliasStrategyEnum.HOT_METHOD,goaliasHot));
                 needProxy.set(true);
             }
         });
         if (needProxy.get()){
-            return bean;//TODO
+            GoaliasByteBuddyProxy goaliasByteBuddyProxy = new GoaliasByteBuddyProxy(bean, clazz);
+            try {
+                return goaliasByteBuddyProxy.proxy();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }else return bean;
     }
 
