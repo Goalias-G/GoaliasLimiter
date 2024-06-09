@@ -9,7 +9,7 @@ Goalias（My global nickname）是一个轻量级本地化热点检测/降级框
 
 ### 使用
 
-将本项目引入到项目中即可，然后通过在需要限流接口中加上`@GoaliasHot`注解即可实现热点处理，加上`@GoaliasFallback`注解即可实现降级处理。
+将本项目jar包引入到项目库中即可，然后通过在需要限流接口中加上`@GoaliasHot`注解即可实现热点处理，加上`@GoaliasFallback`注解即可实现降级处理。
 
 ### 默认配置
 
