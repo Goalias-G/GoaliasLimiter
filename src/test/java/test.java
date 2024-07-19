@@ -1,11 +1,13 @@
+import com.tool.goalias.common.bean.TestBean;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class test {
     @Test
     public void test() {
-        ThreadLocal<String> threadLocal = ThreadLocal.withInitial(() -> "gws");
-        threadLocal.set("123");
-        threadLocal.remove();
-        System.out.println(threadLocal.get());
     }
 }
