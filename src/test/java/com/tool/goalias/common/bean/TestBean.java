@@ -12,6 +12,15 @@ import javax.annotation.Resource;
 public class TestBean {
     @Resource
     private GoaliasProperty goaliasProperty;
+    private String name;
+
+    public TestBean() {
+    }
+    public TestBean(String name) {
+        this.name = name;
+    }
+
+
 
     @GoaliasFallback(grade = FlowGradeEnum.FLOW_GRADE_QPS, count = 2)
     public String sayHi1(String name){
@@ -33,5 +42,14 @@ public class TestBean {
     }
     public int test(){
         return goaliasProperty.getHotCacheSeconds();
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
